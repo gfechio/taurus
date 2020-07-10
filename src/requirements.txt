@@ -1,0 +1,8 @@
+numpy
+selenium 
+sklearn
+pandas_datareader
+yfinance
+iexfinance
+flask
+flask_restx
