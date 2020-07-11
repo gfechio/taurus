@@ -1,6 +1,6 @@
 numpy
 selenium 
-sklearn
+scikit-learn
 pandas_datareader
 yfinance
 iexfinance

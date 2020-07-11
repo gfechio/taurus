@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from datetime import datetime
-import smtplib
+from smtplib import SMTP
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -22,7 +22,7 @@ from iexfinance.stocks import get_historical_data
 
 
 CHROMEDRIVER = "/usr/local/sbin/chromedriver"
-EXPORT_DIR = "/Exports"
+EXPORT_DIR = "/home/gfechio/Trading/Exports"
 URL = "https://finance.yahoo.com/screener/predefined/aggressive_small_caps?offset=0&count=202"
 
 def getStocks(n):
@@ -31,7 +31,7 @@ def getStocks(n):
     options = Options()
     options.add_argument('--headless')
 
-    driver = webdriver.Chrome(CHROMEDRIVER, chrome_options=options)
+    driver = webdriver.Chrome(CHROMEDRIVER, options=options)
     driver.get(URL)
     button = driver.find_element_by_name('agree')
     button.click()
@@ -45,12 +45,11 @@ def getStocks(n):
     driver.quit()
 
     for i in stock_list:
-        predictData(i, 5)
-        #try:
-        #    predictData(i, 5)
-        #except:
-        #    print("Stock: " + i + " was not predicted")
-
+        try:
+            predictData(i, 20)
+        except:
+            print("Stock: " + i + " was not predicted")
+    
 
 def predictData(stock, days):
     start = datetime(2019, 1, 1)
@@ -83,5 +82,18 @@ def predictData(stock, days):
     clf.fit(X_train, Y_train)
     prediction = (clf.predict(X_prediction))
 
+    last_row = df.tail(1)
+    if (float(prediction[4]) > (float(last_row['close']))):
+        output = ("\n\nStock:" + str(stock) + "\nPrior Close:\n" +         str(last_row['Close']) + "\n\nPrediction in 1 Day: " + str(prediction[0]) + "\nPrediction in 5 Days: " + str(prediction[4]))
+        send_message(output)
+
+def send_message(output):
+    email = "gfechio@gmail.com"
+
+    msg = f"From: {email} To: {email} {output}"
+    with SMTP("localhost") as smtp:
+        smtp.sendmail("gfechio@carnage", email, msg)
+
 if __name__ == '__main__':
     getStocks(10)
+
