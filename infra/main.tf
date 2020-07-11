@@ -12,3 +12,16 @@ resource "kubernetes_namespace" "taurus" {
     name = "taurus"
   }
 }
+
+module "api" {
+      source              = "./api"
+}
+module "config_manager" {
+      source              = "./config_manager"
+}
+module "database" {
+      source              = "./database"
+}
+module "mailserver" {
+      source              = "./mailserver"
+}

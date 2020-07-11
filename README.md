@@ -11,4 +11,6 @@ Taurus is a monitoring tool to deal with trading data sets
 - Send Exports to InfluxDB
 - Create REST API
 - Add Swagger
+- Brakdown app in processor and API
+- Brakedown Terraform into namespaces for DB/Config/monitoring
 
