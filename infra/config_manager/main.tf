@@ -1,14 +1,9 @@
-provider "kubernetes" {
-}
+resource "helm_release" "consul" {
+  name  = "config_manager"
+  chart = "hashicorp/consul"
 
-terraform {
-  backend "local" {
-    path = "/mnt/SSD/_terraform_states/taurus.tfstate"
-  }
-}
-
-resource "kubernetes_namespace" "taurus" {
-  metadata {
-    name = "taurus"
+  set {
+    name  = "global.name"
+    value =  "consul"
   }
 }
