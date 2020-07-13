@@ -13,4 +13,5 @@ Taurus is a monitoring tool to deal with trading data sets
 - Add Swagger
 - Brakdown app in processor and API
 - Brakedown Terraform into namespaces for DB/Config/monitoring
+- Add TLS to DB connection
 

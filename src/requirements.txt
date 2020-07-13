@@ -6,3 +6,4 @@ yfinance
 iexfinance
 flask
 flask_restx
+influxdb
