@@ -85,20 +85,12 @@ def predictData(stock, days):
     clf = LinearRegression()
     clf.fit(X_train, Y_train)
     prediction = (clf.predict(X_prediction))
-    print(prediction)
 
     last_row = df.tail(1)
     if (float(prediction[4]) > (float(last_row['Close']))):
         output = ("\n\nStock:" + str(stock) + "\nPrior Close:\n" +         str(last_row['Close']) + "\n\nPrediction in 1 Day: " + str(prediction[0]) + "\nPrediction in 5 Days: " + str(prediction[4]))
     else:
         output = ("\n\nOUT OF PREDITCION -- Stock:" + str(stock) + "\nPrior Close:\n" +         str(last_row['Close']) + "\n\nPrediction in 1 Day: " + str(prediction[0]) + "\nPrediction in 5 Days: " + str(prediction[4]))
-
-def send_message(output):
-    email = "gfechio@gmail.com"
-
-    msg = f"From: {email} To: {email} {output}"
-    with SMTP("localhost") as smtp:
-        smtp.sendmail("gfechio@carnage", email, msg)
 
 
 if __name__ == '__main__':
@@ -110,7 +102,6 @@ if __name__ == '__main__':
         except:
             output_content.append(f"Stock: {stock} was not predicted")
     
-    print(output_content)
     send_message(str(output_content))
     
 

@@ -1,15 +1,40 @@
 import yfinance as yf
+import pandas as pd
+import time
+
 from pandas_datareader import data as pdr
 
+import notification
 import database
+import prediction
 
 stock_name = "EBAY"
 yf.pdr_override()
 stock = yf.Ticker(stock_name)
-data = pdr.get_data_yahoo(stock_name, start="2019-01-01", end="2020-07-13")
-db = database.Database("historical")
-db.use()
-db.panda_write(data, stock_name)
+data = pdr.get_data_yahoo(stock_name, start="2019-07-10", end="2020-07-13")
+db = database.Database()
+db.use("historical")
+db.panda_write("historical", data, stock_name)
+
+days = 7
+prediction_results = prediction.simple_prediction(stock, days, data)
+
+result = {}
+day_time = time.time()
+for prediction in prediction_results:
+    day_time = day_time +  86400 # Seconds in a day
+    date = time.strftime('%Y-%m-%d', time.localtime(day_time))
+    result[date] = prediction
+
+df = pd.DataFrame(list(result.items()), columns = ['Date', 'Prediction'])
+df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+df = df.set_index(df['Date'])
+df = df = df.drop(['Date'], axis=1)
+
+db.use('prediction')
+db.panda_write("prediction", df, stock_name)
+
+notification.Email.send(to="gfechio@gmail.com", title=f"Prediction for {stock_name}  for the next {days} days.", body=pd.DataFrame.to_string(df))
 
 # get stock info
 #print(stock.info)

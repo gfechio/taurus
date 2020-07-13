@@ -2,18 +2,19 @@ from influxdb import InfluxDBClient, DataFrameClient
 
 
 class Database:
-    def __init__(self, dbname):
-        self.dbname = dbname
+    def __init__(self):
+        self.host = "localhost"
+        self.port = 8086
 
-    def use(self):
-        client = InfluxDBClient(host='localhost', port=8086)
-        if client.switch_database(self.dbname):
-            print(f"Using: {self.dbname}")
+    def use(self, dbname):
+        client = InfluxDBClient(host=self.host, port=self.port)
+        if client.switch_database(dbname):
+            print(f"Using: {dbname}")
         else:
-            print(f"DB inexistent, creating: {self.dbname}")
-            client.create_database(self.dbname)
+            print(f"DB inexistent, creating: {dbname}")
+            client.create_database(dbname)
 
 
-    def panda_write(self, dataframe, stock):
-        client = DataFrameClient(host='127.0.0.1', port=8086, database=self.dbname)
-        client.write_points(dataframe,stock)
+    def panda_write(self, dbname, dataframe, stock):
+        client = DataFrameClient(host=self.host, port=self.port, database=dbname)
+        client.write_points(dataframe, stock)
