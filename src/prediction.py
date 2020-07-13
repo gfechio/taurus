@@ -14,7 +14,6 @@ def simple_prediction(stock, days, data_reader):
     data_reader.dropna(inplace=True)
     forecast_time = int(days)
 
-
     X = np.array(data_reader.drop(['prediction'], 1))
     Y = np.array(data_reader['prediction'])
     X = preprocessing.scale(X)

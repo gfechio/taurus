@@ -18,13 +18,11 @@ class Email:
         part = MIMEText(body, 'html')
         email.attach(part)
 
-        if platform.system() == 'Linux':
-            sendmail_socket = subprocess.Popen(["/sbin/sendmail", "-t"], stdin=subprocess.PIPE)
-            sendmail_socket.communicate(bytes(email.as_string(), 'utf8'))
-
-        if platform.system() == 'Darwin':
-            smtp = smtplib.SMTP('mail')
+        try:
+            smtp = smtplib.SMTP('localhost')
             smtp.sendmail(mailfrom, to, email.as_string())
             smtp.quit()
+        except Exception as error:
+            return f"Error: {error}."
 
         return True
