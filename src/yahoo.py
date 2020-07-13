@@ -10,7 +10,8 @@ import prediction
 def stocks(prediction_days, stock):
     print(f"Executing prediction for {stock}")
     yf.pdr_override()
-    data = pdr.get_data_yahoo(stock, start="2019-07-10", end="2020-07-13")
+    now = time.strftime('%Y-%m-%d', time.localtime(time.time()+86400))
+    data = pdr.get_data_yahoo(stock, start="2019-07-10", end="2020-07-14")
     db = database.Database()
     db.use("taurus")
     db.panda_write("taurus", data, stock)
@@ -30,6 +31,8 @@ def stocks(prediction_days, stock):
     df = df = df.drop(['Date'], axis=1)
 
     db.panda_write("taurus", df, stock)
+    #db.use("predictions")
+    #db.panda_write("predictions", data, stock)
 
     df.to_csv(header=None, index=False).strip('\n').split('\n')
 
