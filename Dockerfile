@@ -3,7 +3,7 @@ RUN apk add --no-cache gcc musl-dev bash wget git \
 	  py-pip python3 python3-dev postgresql-dev \
 	  nginx uwsgi uwsgi-python \
 	&& apk add --virtual scipy-build \
-        build-base python-dev openblas-dev freetype-dev pkgconfig gfortran \
+        build-base openblas-dev freetype-dev pkgconfig gfortran \
     && ln -s /usr/include/locale.h /usr/include/xlocale.h \
 	&& apk del scipy-build \
     && apk add --virtual scipy-runtime \
