@@ -65,9 +65,9 @@ def indices(prediction_days, index):
 
     return True
 
+
 # get stock info
 #print(stock.info)
-#
 ## get historical market data
 #hist = stock.history(period="max")
 #print(hist)

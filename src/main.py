@@ -11,7 +11,7 @@ def main():
     else:
         result = stocks_traversal()
 
-    notification.Email.send(title=f"Prediction for {config.STOCK_LIST}  for the next {config.PREDICTION_DAYS} days.", body=str(result))
+    #notification.Email.send(title=f"Prediction for {config.STOCK_LIST}  for the next {config.PREDICTION_DAYS} days.", body=str(result))
 
 def stocks_traversal():
     for stock in config.STOCK_LIST:

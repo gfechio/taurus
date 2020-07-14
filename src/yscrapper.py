@@ -69,5 +69,3 @@ def getIndices(n):
     driver.quit()
 
     return indexes_list
-
-print(getIndices(10))

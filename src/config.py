@@ -11,7 +11,6 @@ HISTORY_START_DATE = "2019-01-01"
 # Scrapper
 CHROMEDRIVER = "/usr/local/sbin/chromedriver"
 URL = "https://in.finance.yahoo.com/world-indices"
-INDEXES_LIST = ["IXIC", "DJI"]
 
 # Notification
 MAIL_RECEIVERS = ["gfechio@gmail.com", "tom.naves@gmail.com"]

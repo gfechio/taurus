@@ -6,4 +6,6 @@ yfinance
 iexfinance
 flask
 flask_restx
+scipy
+sympy
 influxdb
