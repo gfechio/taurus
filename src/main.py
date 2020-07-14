@@ -1,7 +1,7 @@
 import yahoo
 import notification
 
-stock_list = ["AAPL", "NFLX", "FB", "TSLA", "EBAY", "GOOG", "DOCU", "AMZN", "SNE", "MRNA", "NVDA"]
+stock_list = ["AAPL", "NFLX", "FB", "TSLA", "EBAY", "GOOG", "DOCU", "AMZN", "SNE", "MRNA", "NVDA", "BABA"]
 mail_receivers = ["gfechio@gmail.com", "tom.naves@gmail.com"]
 prediction_days = 7
 
