@@ -60,14 +60,14 @@ def getIndices(n):
     button = driver.find_element_by_name('agree')
     button.click()
 
-    stock_list = []
+    indexes_list = []
     n +=1
     for i in range(1,n):
         ticker = driver.find_element_by_xpath('//*[@id="yfin-list"]/div[2]/div/div/table/tbody/tr['+str(i)+']/td[1]/a')
-        stock_list.append(ticker.text)
+        indexes_list.append(ticker.text)
 
     driver.quit()
 
-    return stock_list
+    return indexes_list
 
 print(getIndices(10))
