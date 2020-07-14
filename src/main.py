@@ -1,15 +1,28 @@
+import config
 import yahoo
 import notification
 
-stock_list = ["AAPL", "NFLX", "FB", "TSLA", "EBAY", "GOOG", "DOCU", "AMZN", "SNE", "MRNA", "NVDA", "BABA"]
-mail_receivers = ["gfechio@gmail.com", "tom.naves@gmail.com"]
-#regression_of_days = [20, 15, 10, 7, 5, 2, 1]
-prediction_days = 7
 
-#for prediction_days in regression_of_days:
 map_of_stock_predictions = {}
-for stock in stock_list:
-    map_of_stock_predictions[stock] = yahoo.stocks(prediction_days,stock)
 
+def main():
+    if config.USE_REGRESSION_DAYS:
+        result = regression_days()
+    else:
+        result = stocks_traversal()
 
-#notification.Email.send(to=mail_receivers, title=f"Prediction for {stock_list}  for the next {prediction_days} days.", body=str(map_of_stock_predictions))
+    notification.Email.send(title=f"Prediction for {config.STOCK_LIST}  for the next {config.PREDICTION_DAYS} days.", body=str(result))
+
+def stocks_traversal():
+    for stock in config.STOCK_LIST:
+        map_of_stock_predictions[stock] = yahoo.stocks(config.PREDICTION_DAYS,stock)
+    return map_of_stock_predictions
+
+def regression_days():
+    for prediction_days in config.REGRESSION_OF_DAYS:
+        for stock in config.STOCK_LIST:
+            map_of_stock_predictions[stock] = yahoo.stocks(config.PREDICTION_DAYS,stock)
+    return map_of_stock_predictions
+
+if __name__ == '__main__':
+    main()

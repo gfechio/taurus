@@ -1,5 +1,6 @@
 import os
 
+import config
 import database
 
 import numpy as np
@@ -26,11 +27,6 @@ from iexfinance.stocks import Stock
 from iexfinance.stocks import get_historical_data
 
 
-CHROMEDRIVER = "/usr/local/sbin/chromedriver"
-EXPORT_DIR = "/home/gfechio/Trading/Exports"
-
-#URL = "https://finance.yahoo.com/screener/predefined/aggressive_small_caps?offset=0&count=202"
-URL = "https://in.finance.yahoo.com/world-indices"
 
 def getStocks(n):
     #Navigating to the Yahoo stock screener
@@ -38,12 +34,12 @@ def getStocks(n):
     options = Options()
     options.add_argument('--headless')
 
-    driver = webdriver.Chrome(CHROMEDRIVER, options=options)
-    driver.get(URL)
+    driver = webdriver.Chrome(config.CHROMEDRIVER, options=options)
+    driver.get(config.URL)
     button = driver.find_element_by_name('agree')
     button.click()
 
-    stock_list = ["IXIC", "DJI"]
+    stock_list = []
     n +=1
     #//*[@id="marketsummary-itm-^IXIC"]/h3/a[1]
     #//*[@id="marketsummary-itm-^DJI"]/h3/a[1]
@@ -56,20 +52,17 @@ def getStocks(n):
     return stock_list
 
 def getIndices(n):
-    #Navigating to the Yahoo stock screener
-    # Testing for Lemonade : <a href="/quote/LMND?p=LMND" title="Lemonade, Inc." class="Fw(600) C($linkColor)" data-reactid="131">LMND</a>
     options = Options()
     options.add_argument('--headless')
 
-    driver = webdriver.Chrome(CHROMEDRIVER, options=options)
-    driver.get(URL)
+    driver = webdriver.Chrome(config.CHROMEDRIVER, options=options)
+    driver.get(config.URL)
     button = driver.find_element_by_name('agree')
     button.click()
 
     stock_list = []
     n +=1
     for i in range(1,n):
-        #ticker = driver.find_element_by_xpath('//*[@id="scr-res-table"]/div[1]/table/tbody/tr['+str(i)+']/td[1]/a')
         ticker = driver.find_element_by_xpath('//*[@id="yfin-list"]/div[2]/div/div/table/tbody/tr['+str(i)+']/td[1]/a')
         stock_list.append(ticker.text)
 
@@ -77,4 +70,4 @@ def getIndices(n):
 
     return stock_list
 
-print(getIndices(5))
+print(getIndices(10))

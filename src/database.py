@@ -1,10 +1,12 @@
+import config
 from influxdb import InfluxDBClient, DataFrameClient
 
 
 class Database:
     def __init__(self):
-        self.host = "localhost"
-        self.port = 8086
+        self.host = config.DB_HOST 
+        self.port = config.DB_PORT
+        self.dbname = config.DB_NAME
 
     def use(self, dbname):
         client = InfluxDBClient(host=self.host, port=self.port)

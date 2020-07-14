@@ -1,17 +1,20 @@
-import yfinance as yf
-import pandas as pd
 import time
 
-from pandas_datareader import data as pdr
-
+import config
 import database
 import prediction
+import yscrapper
+
+import yfinance as yf
+import pandas as pd
+from pandas_datareader import data as pdr
+
 
 def stocks(prediction_days, stock):
     print(f"Executing prediction for {stock}")
     yf.pdr_override()
     now = time.strftime('%Y-%m-%d', time.localtime(time.time()+86400))
-    data = pdr.get_data_yahoo(stock, start="2019-07-10", end="2020-07-14")
+    data = pdr.get_data_yahoo(stock, start=config.HISTORY_START_DATE, end=now)
     db = database.Database()
     db.use("taurus")
     db.panda_write("taurus", data, stock)
@@ -38,7 +41,35 @@ def stocks(prediction_days, stock):
 
     return df
 
-def indices(prediction_day, index):
+def indices(prediction_days, index):
+    print(f"Executing prediction for {index}")
+    yf.pdr_override()
+    now = time.strftime('%Y-%m-%d', time.localtime(time.time()+86400))
+    data = pdr.get_data_yahoo(index, start="2019-07-10", end="2020-07-14")
+    db = database.Database()
+    db.use("taurus")
+    db.panda_write("taurus", data, index)
+
+    prediction_results = prediction.simple_prediction(index, prediction_days, data)
+
+    result = {}
+    day_time = time.time()
+    for single_prediction in prediction_results:
+        day_time = day_time +  86400 # Seconds in a day
+        date = time.strftime('%Y-%m-%d', time.localtime(day_time))
+        result[date] = single_prediction
+
+    df = pd.DataFrame(list(result.items()), columns = ['Date', 'Prediction'])
+    df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+    df = df.set_index(df['Date'])
+    df = df = df.drop(['Date'], axis=1)
+
+    db.panda_write("taurus", df, index)
+    #db.use("predictions")
+    #db.panda_write("predictions", data, index)
+
+    df.to_csv(header=None, index=False).strip('\n').split('\n')
+
     return True
 
 # get stock info
