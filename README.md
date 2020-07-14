@@ -14,7 +14,7 @@ Taurus is a monitoring tool to deal with trading data sets
 - Add Swagger
 - Breakdown app in processor and API
 - Breakdown Terraform into namespaces for DB/Config/monitoring
-- Apply [Brandford's law](https://en.wikipedia.org/wiki/Bradford%27s_law) for validation
+- Apply [Benford's law](https://en.wikipedia.org/wiki/Benford%27s_law) for validation
 - Does it needs [Black-scholes?](https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model)
 - Add TLS to DB connection
 
