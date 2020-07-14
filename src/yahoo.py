@@ -32,11 +32,7 @@ def stocks(prediction_days, stock):
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
     df = df.set_index(df['Date'])
     df = df = df.drop(['Date'], axis=1)
-
     db.panda_write("taurus", df, stock)
-    #db.use("predictions")
-    #db.panda_write("predictions", data, stock)
-
     df.to_csv(header=None, index=False).strip('\n').split('\n')
 
     return df
@@ -45,7 +41,7 @@ def indices(prediction_days, index):
     print(f"Executing prediction for {index}")
     yf.pdr_override()
     now = time.strftime('%Y-%m-%d', time.localtime(time.time()+86400))
-    data = pdr.get_data_yahoo(index, start="2019-07-10", end="2020-07-14")
+    data = pdr.get_data_yahoo(index, start=config.HISTORY_START_DATE, end=now)
     db = database.Database()
     db.use("taurus")
     db.panda_write("taurus", data, index)
@@ -65,9 +61,6 @@ def indices(prediction_days, index):
     df = df = df.drop(['Date'], axis=1)
 
     db.panda_write("taurus", df, index)
-    #db.use("predictions")
-    #db.panda_write("predictions", data, index)
-
     df.to_csv(header=None, index=False).strip('\n').split('\n')
 
     return True
