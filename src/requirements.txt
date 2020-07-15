@@ -6,6 +6,9 @@ yfinance
 iexfinance
 flask
 flask_restx
-scipy
+scipy==1.4.1
 sympy
 influxdb
+matplotlib
+keras
+tensorflow
