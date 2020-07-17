@@ -7,6 +7,7 @@ import pandas_datareader as web
 import matplotlib.pyplot as plt
 
 import config
+import database
 
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
@@ -15,7 +16,7 @@ from keras.layers import Dense, LSTM
 plt.style.use('fivethirtyeight')
 
 
-def close_daily_prediction(days, data_reader):
+def model(days, data_reader):
     #Create a new dataframe with only the 'Close' column
     data = data_reader.filter(['Close'])
     #Converting the dataframe to a numpy array
@@ -60,6 +61,10 @@ def close_daily_prediction(days, data_reader):
     #Create the x_test and y_test data sets
     x_test = []
     y_test =  dataset[training_data_len : , : ] #Get all of the rows from index 1603 to the rest and all of the columns (in this case it's only column 'Close'), so 2003 - 1603 = 400 rows of data
+
+    return y_test, x_test, model, scaler, test_data
+
+def predict(y_test, x_test, model, scaler, test_data):
     for i in range(60,len(test_data)):
         x_test.append(test_data[i-60:i,0])
 
@@ -77,6 +82,5 @@ def close_daily_prediction(days, data_reader):
 
 def root_deviation(predictions, y_test):
     #Calculate/Get the value of RMSE
-    rmse=np.sqrt(np.mean(((predictions- y_test)**2)))
-    lstm_prediction =[]
-    return rmse
+    return [ np.sqrt(np.mean(((predictions- y_test)**2))) ]
+

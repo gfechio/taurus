@@ -20,34 +20,46 @@ def stocks_prediction(prediction_days, stock):
     db.use("taurus")
     db.panda_write("taurus", data, stock)
 
+
+    # Save Simple Prediction to DB
     prediction_results = prediction.simple_prediction(prediction_days, data)
-    lstm_results = lstm.close_daily_prediction(prediction_days, data) 
+    simple_data = _save("Prediction", prediction_results, stock)
 
-    result = {}
+    model = lstm.model(prediction_days, data)
+    # Save LSTM Prediction to DB
+    lstm_results = lstm.predict(model[0], model[1], model[2], model[3], model[4])
+    lstm_data = _save("LSTMPrediction", lstm_results, stock)
+
+    # Save Root Deviation to DB
+    rmse_results = lstm.root_deviation(lstm_results, model[0])
+    # The var writing is on the opposite way so I can generate a query on influxdb for all the deviations.
+    _save(stock, rmse_results, "Deviation")
+
+    return simple_data, lstm_data
+
+
+def _save(tablename, results, stock):
     day_time = time.time()
-
-    for single_prediction in prediction_results:
+    result = {}
+    db = database.Database()
+    db.use("taurus")
+    for single_prediction in results:
         day_time = day_time +  86400 # Seconds in a day
-        date = time.strftime('%Y-%m-%d', time.localtime(day_time))
-        result[date] = single_prediction
-        df = pd.DataFrame(list(result.items()), columns = ['Date', 'Prediction'])
+        date = time.strftime('%Y-%m-%d', time.localtime())
+
+        if tablename == "LSTMPrediction":
+            result[date] = single_prediction[0]
+        else:
+            result[date] = single_prediction
+
+        df = pd.DataFrame(list(result.items()), columns = ['Date', tablename])
         df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
         df = df.set_index(df['Date'])
         df = df.drop(['Date'], axis=1)
         db.panda_write("taurus", df, stock)
         #df.to_csv(header=None, index=False).strip('\n').split('\n')
-
-    for single_lstm in lstm_results:
-        day_time = day_time +  86400 # Seconds in a day
-        date = time.strftime('%Y-%m-%d', time.localtime(day_time))
-        result[date] = single_lstm[0]
-        lstm_data = pd.DataFrame(list(result.items()), columns = ['Date', 'LSTMPrediction'])
-        lstm_data['Date'] = pd.to_datetime(lstm_data['Date'], errors='coerce')
-        lstm_data = lstm_data.set_index(lstm_data['Date'])
-        lstm_data = lstm_data.drop(['Date'], axis=1)
-        db.panda_write("taurus", lstm_data, stock)
-
-    return df, lstm_data
+    
+    return df
 
 
 
