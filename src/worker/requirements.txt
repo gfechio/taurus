@@ -4,11 +4,11 @@ scikit-learn
 pandas_datareader
 yfinance
 iexfinance
-flask
-flask_restx
 scipy==1.4.1
-sympy
 influxdb
 matplotlib
 keras
-tensorflow
+sympy==1.6.1
+tensorboard==2.2.2
+tensorboard-plugin-wit==1.7.0
+tensorflow-estimator==2.2.0

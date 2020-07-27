@@ -1,6 +1,5 @@
 import config
 import yahoo
-import notification
 
 
 map_of_stock_predictions = {}
@@ -11,7 +10,7 @@ def main():
     else:
         result = stocks_traversal()
 
-    #notification.Email.send(title=f"Prediction for {config.STOCK_LIST}  for the next {config.PREDICTION_DAYS} days.", body=str(result))
+    # NOTIFICATION WILL BE DONE VIA API ( PUT HERE ) 
 
 def stocks_traversal():
     for stock in config.STOCK_LIST:
