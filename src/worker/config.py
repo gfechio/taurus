@@ -1,4 +1,3 @@
-
 #Main
 STOCK_LIST = ["UAL", "NCLH", "AAPL", "NFLX", "FB", "TSLA", "EBAY", "GOOG", "DOCU", "AMZN", "SNE", "MRNA", "NVDA", "BABA"]
 REGRESSION_OF_DAYS = [20, 15, 10, 7, 5, 2, 1]
