@@ -1,6 +1,6 @@
 FROM alpine:latest
 RUN apk add --no-cache gcc musl-dev bash wget git \
-      gfortran openblas-dev lapack-dev \
+      gfortran openblas-dev lapack-dev hdf5-dev \
 	  py-pip python3 python3-dev postgresql-dev \
 	&& apk add --virtual scipy-build \
         build-base openblas-dev freetype-dev pkgconfig gfortran \

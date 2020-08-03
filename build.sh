@@ -1,4 +1,4 @@
 #!/bin/bash
-docker build -t taurus:api app/api/
-docker build -t taurus:worker app/worker/
-docker build -t taurus:searcher app/searcher/
+docker build -t $USERNAME/taurus:api app/api/ --push
+docker build -t $USERNAME/taurus:worker app/worker/ --push
+docker build -t $USERNAME/taurus:searcher app/searcher/ --push

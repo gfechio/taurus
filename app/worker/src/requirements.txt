@@ -1,6 +1,7 @@
 numpy
 selenium 
 scikit-learn
+benfordslaw
 pandas_datareader
 yfinance
 iexfinance
