@@ -1,16 +1,22 @@
-import os
-import config
-import platform
+'''Send emails with stocks predictions'''
 import smtplib
-import subprocess
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-class Email:
+import config
 
+class Email:
+    '''
+    Email Class
+    '''
     @staticmethod
     def send(title=None, body=None):
+        '''
+        Sends email
+        :param title: String wiht title of the email
+        :param body: Message string
+        :return:
+        '''
         email = MIMEMultipart()
         email["From"] = config.MAIL_FROM
         email["To"] = config.MAIL_RECEIVERS
@@ -22,8 +28,9 @@ class Email:
         try:
             smtp = smtplib.SMTP(config.MAIL_SERVER)
             smtp.sendmail(email["To"], email["To"], email.as_string())
-            smtp.quit()
-        except Exception as error:
+        except smtplib .SMTPHeloError as error:
             return f"Error: {error}."
+        finally:
+            smtp.quit()
 
         return True

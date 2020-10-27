@@ -1,7 +1,8 @@
-from datetime import datetime 
-from flask import flash, redirect, render_template, url_for
-from flask import Flask, request, jsonify
-from flask_restx import Api, Namespace, Resource, fields
+'''Start Flask API'''
+from flask import Flask
+from flask_restx import Api
+
+from stocks import api as stocks
 
 app = Flask(__name__)
 api = Api(
@@ -15,11 +16,6 @@ api = Api(
 )
 
 ns = api.namespace('', description='Taurus Operations.')
-
-from todo import api as todo
-from stocks import api as stocks
-
-api.add_namespace(todo)
 api.add_namespace(stocks)
 
 if __name__ == '__main__':

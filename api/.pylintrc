@@ -1,0 +1,7 @@
+[MASTER]
+disable=
+  R0903,  #Too few public methods (1/2) (too-few-public-methods)
+  E0211,  #Method has no argument (no-method-argument)
+  R0201,  #Method could be a function (no-self-use)
+
+ignored-classes=SQLObject,Registrant,scoped_session

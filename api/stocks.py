@@ -1,11 +1,9 @@
-from datetime import datetime 
-from flask import flash, redirect, render_template, url_for
+'''API to deal wiht Stacks configuration '''
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_restx import Api, Namespace, Resource, fields
+from flask_restx import Namespace, Resource
 
 import sqlalchemy.orm
-from cockroachdb.sqlalchemy import run_transaction
 
 stocks = Flask(__name__)
 stocks.config.from_pyfile('api.cfg')
@@ -17,10 +15,17 @@ api = Namespace('api/stocks', description='Taurus Stocks Operations.')
 @api.doc('Manage Stocks list to check.')
 @api.param('stock', 'AAPL', location='arg')
 class Stocks(Resource):
+    '''
+    Stock management service
+    '''
     def get(self):
-        stocks = request.args.get('stocks')
-        if stocks is None:
+        '''
+        Get stocks that are being predicted
+        :return:
+        '''
+        stock_param = request.args.get('stocks')
+        if stock_param is None:
             msg = 'The "stock" parameter is required.'
             api.abort(400, msg)
 
-        return jsonify(stocks)
+        return jsonify("stock list with configuration")
