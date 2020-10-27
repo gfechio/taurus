@@ -1,11 +1,15 @@
+'''
+Hardcoded configuration to be added to SQL storage or similar
+'''
 #Main
-STOCK_LIST = ["UAL", "NCLH", "AAPL", "NFLX", "FB", "TSLA", "EBAY", "GOOG", "DOCU", "AMZN", "SNE", "MRNA", "NVDA", "BABA"]
+STOCK_LIST = ["UAL", "NCLH", "AAPL", "NFLX", "FB",
+              "TSLA", "EBAY", "GOOG", "DOCU", "AMZN", "SNE", "MRNA", "NVDA", "BABA"]
 REGRESSION_OF_DAYS = [20, 15, 10, 7, 5, 2, 1]
 PREDICTION_DAYS = 7
 USE_REGRESSION_DAYS = False
 
 # Yahoo
-HISTORY_START_DATE = "2019-01-01" 
+HISTORY_START_DATE = "2019-01-01"
 
 # Scrapper
 CHROMEDRIVER = "/usr/local/sbin/chromedriver"

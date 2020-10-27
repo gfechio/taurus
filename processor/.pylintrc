@@ -1,0 +1,10 @@
+[MASTER]
+disable=
+ C0103,  #Argument name "S" doesn't conform to snake_case naming style
+ R0913,  #Too many arguments (6/5) (too-many-arguments)
+ W0613,  #Unused argument 'y_test'
+ W0612,  #Unused variable 'X_test'
+ W0611,  #Unused svm imported from sklearn (unused-import)
+
+
+ignored-classes=SQLObject,Registrant,scoped_session

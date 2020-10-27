@@ -1,17 +1,22 @@
+''' Fetch historical data from Yahoo API and run prediction modules'''
 import time
-
-import config
-import database
-import prediction
-import lstm
-import yscrapper
 
 import yfinance as yf
 import pandas as pd
 from pandas_datareader import data as pdr
 
+import config
+import database
+import prediction
+import lstm
 
 def stocks_prediction(prediction_days, stock):
+    '''
+    Run model to generate simplified prediction
+    :param prediction_days: (int)  with days to predict
+    :param stock: (str) stock name ( ticker )
+    :return: prediction data_points model
+    '''
     print(f"Executing prediction for {stock}")
     yf.pdr_override()
     now = time.strftime('%Y-%m-%d', time.localtime(time.time()+86400))
@@ -25,14 +30,15 @@ def stocks_prediction(prediction_days, stock):
     prediction_results = prediction.simple_prediction(prediction_days, data)
     simple_data = _save("Prediction", prediction_results, stock)
 
-    model = lstm.model(prediction_days, data)
+    model = lstm.generate_model(data)
     # Save LSTM Prediction to DB
     lstm_results = lstm.predict(model[0], model[1], model[2], model[3], model[4])
     lstm_data = _save("LSTMPrediction", lstm_results, stock)
 
     # Save Root Deviation to DB
     rmse_results = lstm.root_deviation(lstm_results, model[0])
-    # The var writing is on the opposite way so I can generate a query on influxdb for all the deviations.
+    # The var writing is on the opposite way so
+    # I can generate a query on influxdb for all the deviations.
     _save(stock, rmse_results, "Deviation")
 
     return simple_data, lstm_data
@@ -58,5 +64,5 @@ def _save(tablename, results, stock):
         df = df.drop(['Date'], axis=1)
         db.panda_write("taurus", df, stock)
         #df.to_csv(header=None, index=False).strip('\n').split('\n')
-    
+
     return df

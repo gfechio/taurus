@@ -1,15 +1,16 @@
-import os
-
-import time
+''' Module to generate simplified predictions'''
 import numpy as np
-from datetime import datetime
-
-#For Prediction
 from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing, svm
 from sklearn.model_selection import train_test_split
 
 def simple_prediction(days, data_reader):
+    '''
+     Simple Prediction
+    :param days:  ( int)  Number for days to predict
+    :param data_reader: data_point in panda format
+    :return: predicted data
+    '''
     data_reader['prediction'] = data_reader['Close'].shift(-1)
     data_reader.dropna(inplace=True)
     forecast_time = int(days)
@@ -26,4 +27,3 @@ def simple_prediction(days, data_reader):
     prediction = (clf.predict(X_prediction))
 
     return prediction
-
