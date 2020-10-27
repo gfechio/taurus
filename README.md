@@ -35,6 +35,8 @@ This projects aim to create monitoring and alerting as well as an best-effort ma
 - Does it needs [Black-scholes](https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model)?
 - Add TLS to DB connection
 - Alerting Tool 
+- Separate get_historical_data to different process/service
+- Multi-thread to process different time span ( Prediction days) 
 
 
 # Acknowledgements 

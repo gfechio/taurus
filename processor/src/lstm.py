@@ -1,17 +1,10 @@
 #Import the libraries
 import math
-import time
 import numpy as np
-import pandas as pd
-import pandas_datareader as web
 import matplotlib.pyplot as plt
 
-import config
-import database
-
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential
-from keras.layers import Dense, LSTM
+from tensorflow import keras
 
 plt.style.use('fivethirtyeight')
 
@@ -44,11 +37,11 @@ def model(days, data_reader):
     x_train = np.reshape(x_train, (x_train.shape[0],x_train.shape[1],1))
 
     #Build the LSTM network model
-    model = Sequential()
-    model.add(LSTM(units=50, return_sequences=True,input_shape=(x_train.shape[1],1)))
-    model.add(LSTM(units=50, return_sequences=False))
-    model.add(Dense(units=25))
-    model.add(Dense(units=1))
+    model = keras.modelsSequential()
+    model.add(keras.layers.LSTM(units=50, return_sequences=True,input_shape=(x_train.shape[1],1)))
+    model.add(keras.layers.LSTM(units=50, return_sequences=False))
+    model.add(keras.layers.Dense(units=25))
+    model.add(keras.layers.Dense(units=1))
 
     #Compile the model
     model.compile(optimizer='adam', loss='mean_squared_error')
