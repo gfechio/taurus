@@ -1,3 +1,4 @@
+import os
 #Main
 STOCK_LIST = ["UAL", "NCLH", "AAPL", "NFLX", "FB", "TSLA", "EBAY", "GOOG", "DOCU", "AMZN", "SNE", "MRNA", "NVDA", "BABA"]
 REGRESSION_OF_DAYS = [20, 15, 10, 7, 5, 2, 1]
@@ -12,11 +13,11 @@ CHROMEDRIVER = "/usr/local/sbin/chromedriver"
 URL = "https://in.finance.yahoo.com/world-indices"
 
 # Notification
-MAIL_RECEIVERS = ["gfechio@gmail.com", "tom.naves@gmail.com"]
+MAIL_RECEIVERS = ["gfechio@gmail.com"]
 MAIL_FROM = "taurus@localhost"
 # Prediction
 
 # DataBase
-DB_HOST = "localhost"
-DB_PORT = 8086
-DB_NAME = "taurus"
+DB_HOST = os.getenv('DB_HOST')
+DB_PORT = os.getenv('DB_PORT')
+DB_NAME = os.getenv('DB_NAME')
