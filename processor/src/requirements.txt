@@ -5,7 +5,7 @@ benfordslaw
 pandas_datareader
 yfinance
 iexfinance
-scipy==1.4.1
+scipy==1.10.0
 influxdb
 matplotlib
 keras
